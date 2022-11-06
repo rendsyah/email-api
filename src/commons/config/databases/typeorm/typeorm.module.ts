@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigAsync } from './typeorm.config';
+import { typeOrmConfigAsync } from './typeorm.config';
 
 @Module({
-    imports: [TypeOrmModule.forRootAsync(TypeOrmConfigAsync)],
+    imports: [TypeOrmModule.forRootAsync(typeOrmConfigAsync)],
 })
 export class TypeOrmConfigModule {}

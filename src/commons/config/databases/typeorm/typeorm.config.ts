@@ -7,20 +7,20 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
 
     public createTypeOrmOptions(): TypeOrmModuleOptions {
         return {
-            type: 'mariadb',
+            type: 'postgres',
             host: this.configService.get<string>('PROJECT_DB_HOST'),
             port: +this.configService.get<string>('PROJECT_DB_PORT'),
             username: this.configService.get<string>('PROJECT_DB_USER'),
             password: this.configService.get<string>('PROJECT_DB_PASS'),
             database: this.configService.get<string>('PROJECT_DB_NAME'),
             synchronize: false,
-            connectTimeout: 30000,
-            entities: [join(__dirname, '/../../../../modules/**/*.entity{.ts,.js}')],
+            connectTimeoutMS: 30000,
+            entities: [join(__dirname, '/../../../../datasource/**/*.entity{.ts,.js}')],
         };
     }
 }
 
-export const TypeOrmConfigAsync: TypeOrmModuleAsyncOptions = {
+export const typeOrmConfigAsync: TypeOrmModuleAsyncOptions = {
     imports: [ConfigModule],
     useFactory: async (configService: ConfigService): Promise<TypeOrmModuleOptions> => {
         return new TypeOrmConfig(configService).createTypeOrmOptions();

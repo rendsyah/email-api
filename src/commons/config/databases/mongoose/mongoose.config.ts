@@ -17,7 +17,7 @@ export class MongooseConfig implements MongooseOptionsFactory {
     }
 }
 
-export const MongooseConfigAsync: MongooseModuleAsyncOptions = {
+export const mongooseConfigAsync: MongooseModuleAsyncOptions = {
     imports: [ConfigModule],
     useFactory: async (configService: ConfigService): Promise<MongooseModuleOptions> => {
         return new MongooseConfig(configService).createMongooseOptions();
