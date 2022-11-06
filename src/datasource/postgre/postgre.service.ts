@@ -12,7 +12,7 @@ export class PostgreService {
 
     public async findAllNotificationMessage(params: IFindAllNotificationMessage) {
         const { mediaId, status } = params;
-        return await this.notificationMessageModel.find({ where: { media_id: mediaId, status: status } });
+        return await this.notificationMessageModel.find({ where: { ...params } });
     }
 
     public async findOneEvent(params: IFindOneEvent) {

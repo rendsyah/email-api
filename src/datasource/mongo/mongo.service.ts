@@ -22,10 +22,7 @@ export class MongoService {
     }
 
     public async updateOneLogOutgoing(params: IUpdateLogOutgoing): Promise<unknown> {
-        const { id, message, attachment, sentTime, status, isAck } = params;
-        return await this.logOutgoingModel.updateOne(
-            { _id: id },
-            { $set: { message: message, attachment: attachment, sentTime: sentTime, status: status, isAck: isAck } },
-        );
+        const { id } = params;
+        return await this.logOutgoingModel.updateOne({ _id: id }, { $set: { ...params } });
     }
 }
