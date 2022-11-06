@@ -11,7 +11,6 @@ export class PostgreService {
     constructor(@InjectRepository(NotificationMessage) private readonly notificationMessageModel: Repository<NotificationMessage>) {}
 
     public async findAllNotificationMessage(params: IFindAllNotificationMessage) {
-        const { mediaId, status } = params;
         return await this.notificationMessageModel.find({ where: { ...params } });
     }
 
