@@ -1,5 +1,5 @@
-import { ArgumentMetadata, HttpException, HttpStatus, PipeTransform } from "@nestjs/common";
-import { ObjectSchema } from "joi";
+import { ArgumentMetadata, HttpException, HttpStatus, PipeTransform } from '@nestjs/common';
+import { ObjectSchema } from 'joi';
 
 export class JoiValidationPipe implements PipeTransform {
     constructor(private validationSchema: ObjectSchema) {}
@@ -12,9 +12,9 @@ export class JoiValidationPipe implements PipeTransform {
                 {
                     errors: {
                         statusCode: HttpStatus.BAD_REQUEST,
-                        message: "Bad Request",
+                        message: 'Bad Request',
                         params: error.details[0].path,
-                        detail: error.message.replace(/[^a-z\s]+/gi, ""),
+                        detail: error.message.replace(/[^a-z\s]+/gi, ''),
                     },
                 },
                 HttpStatus.BAD_REQUEST,

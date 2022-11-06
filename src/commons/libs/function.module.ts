@@ -1,5 +1,5 @@
-import { Global, Module } from "@nestjs/common";
-import { BaseFunctions } from "./function.service";
+import { Global, Module } from '@nestjs/common';
+import { BaseFunctions } from './function.service';
 
 @Global()
 @Module({
