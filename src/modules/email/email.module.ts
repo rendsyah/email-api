@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { LogModule } from 'src/datasource/log/log.module';
+import { MongoModule } from 'src/datasource/mongo/mongo.module';
+import { PostgreModule } from 'src/datasource/postgre/postgre.module';
 import { EmailController } from './email.controller';
 import { EmailService } from './email.service';
 
 @Module({
-    imports: [LogModule],
+    imports: [MongoModule, PostgreModule],
     controllers: [EmailController],
     providers: [EmailService],
 })
