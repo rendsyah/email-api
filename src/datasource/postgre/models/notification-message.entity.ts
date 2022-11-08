@@ -29,12 +29,12 @@ export class NotificationMessage {
     @Column({ type: 'smallint', default: 0 })
     is_deleted: number;
 
-    @Column({ type: 'timestamp', nullable: true, default: null })
+    @Column({ type: 'timestamp', nullable: true, default: null, select: false })
     deleted_at: Date;
 
-    @Column({ type: 'timestamp', default: Timestamp })
+    @Column({ type: 'timestamp', default: Timestamp, select: false })
     created_at: Date;
 
-    @Column({ type: 'timestamp', default: Timestamp })
+    @Column({ type: 'timestamp', default: Timestamp, select: false })
     updated_at: Date;
 }
