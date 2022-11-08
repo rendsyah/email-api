@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { createTransport, SendMailOptions } from 'nodemailer';
 import * as root from 'app-root-path';
 
-import { EmailNotificationDTO } from './dto/email.dto';
+import { EmailBulkNotificationDTO, EmailNotificationDTO } from './dto/email.dto';
 import { IEmailMasterData, IEmailRequestData, IEmailTransporter } from './email.interface';
 import { BaseFunctions } from 'src/commons/libs/base-function.service';
 import { MongoService } from 'src/datasource/mongo/mongo.service';
@@ -33,12 +33,15 @@ export class EmailService {
                 this.masterData.push(...getNotificationMessage);
             }
         }
+
+        console.log(this.masterData);
+        throw new Error('err');
     }
 
     private async _emailRequestData(params: IEmailRequestData) {
         // Get Entries & Attachment
         const getEntries = await this.postgreModelsService.findOneEntries({ id: params.entriesId });
-        const getAttachment = await this.mongoModelsService.findOneAttachment({ ...params });
+        const getAttachment = await this.mongoModelsService.findOneAttachment(params);
 
         // Guard Entries & Attachment Data
         if (!getEntries || !getAttachment) {
@@ -90,7 +93,7 @@ export class EmailService {
         }
 
         // Mapping Request Email
-        const messageEmail = this.baseFunctions.validateReplaceMessage(getMessage?.message, [entriesName, eventStartDate, eventEndDate]);
+        const messageEmail = this.baseFunctions.validateReplaceMessage(getMessage?.message, replaceMessage);
         const subjectEmail = this.baseFunctions.validateString(getMessage?.subject, 'char');
         const pathEmail = this.baseFunctions.validateFilename(entriesFilename);
         const sentTimeEmail = this.baseFunctions.validateTime(new Date(), 'datetime');
@@ -199,7 +202,7 @@ export class EmailService {
         return 'ok';
     }
 
-    public async emailBulkNotification() {
+    public async emailBulkNotification(params: EmailBulkNotificationDTO) {
         return;
     }
 }
