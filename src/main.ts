@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import * as dotenv from 'dotenv';
 import helmet from 'helmet';
 
-dotenv.config();
+import { swaggerApiConfig } from './commons/config/open-api/swagger.config';
+import { SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -14,6 +14,9 @@ async function bootstrap() {
 
     app.use(helmet());
     app.enableCors();
+
+    const swaggerConfig = swaggerApiConfig(app);
+    SwaggerModule.setup('api/docs', app, swaggerConfig);
 
     await app.listen(process.env.SERVICE_PORT, () => {
         console.log(`Service ${service} running on port ${port}`);
