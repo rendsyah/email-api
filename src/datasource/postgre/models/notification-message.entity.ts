@@ -20,15 +20,21 @@ export class NotificationMessage {
     @Column({ type: 'smallint', default: 1 })
     status: number;
 
+    @Column({ type: 'smallint', default: 2 })
+    is_valid: number;
+
+    @Column({ type: 'smallint', default: 0 })
+    is_invalid: number;
+
     @Column({ type: 'smallint', default: 0 })
     is_deleted: number;
 
     @Column({ type: 'timestamp', nullable: true, default: null })
     deleted_at: Date;
 
-    @Column({ type: 'timestamp', nullable: true, default: Timestamp })
+    @Column({ type: 'timestamp', default: Timestamp })
     created_at: Date;
 
-    @Column({ type: 'timestamp', nullable: true, default: Timestamp })
+    @Column({ type: 'timestamp', default: Timestamp })
     updated_at: Date;
 }

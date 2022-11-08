@@ -1,3 +1,4 @@
+import { Entries } from './entries.entity';
 import { NotificationMessage } from './notification-message.entity';
 
-export const PostgreModels = [NotificationMessage];
+export const PostgreModels = [Entries, NotificationMessage];

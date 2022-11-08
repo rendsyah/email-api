@@ -33,7 +33,7 @@ export class BaseFunctions {
         }
     }
 
-    public validateReplaceMessage(request: string, variables: string[]) {
+    public validateReplaceMessage(request: string, variables: string[]): string {
         if (!request) return '';
 
         variables.forEach((v, i) => {
@@ -42,5 +42,14 @@ export class BaseFunctions {
         });
 
         return request;
+    }
+
+    public validateFilename(request: string): string {
+        if (!request) return '';
+
+        const splitFilename = request.split('.');
+        const filename = splitFilename.find((v) => v.match(/\.(jpeg)/gi)) && splitFilename[splitFilename.length - 1];
+
+        return filename;
     }
 }

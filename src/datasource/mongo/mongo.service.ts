@@ -1,17 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
+import { IFindOneAttachment } from './interfaces/attachment.interface';
 import { ICreatedLogIncoming } from './interfaces/log-incoming.interface';
 import { ICreatedLogOutgoing, IUpdateLogOutgoing } from './interfaces/log-outgoing.interface';
+import { AttachmentDocument } from './models/attachment.model';
 import { EmailLogIncomingDocument } from './models/log-incoming.model';
 import { EmailLogOutgoingDocument } from './models/log-outgoing.model';
 
 @Injectable()
 export class MongoService {
     constructor(
+        @InjectModel('Attachment') private readonly attachmentModel: Model<AttachmentDocument>,
         @InjectModel('LogIncoming') private readonly logIncomingModel: Model<EmailLogIncomingDocument>,
         @InjectModel('LogOutgoing') private readonly logOutgoingModel: Model<EmailLogOutgoingDocument>,
     ) {}
+
+    public async findOneAttachment(params: IFindOneAttachment): Promise<Document> {
+        return await this.attachmentModel.findOne(params);
+    }
 
     public async createdLogIncoming(params: ICreatedLogIncoming): Promise<Document> {
         return new this.logIncomingModel(params).save();
