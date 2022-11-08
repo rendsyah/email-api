@@ -1,8 +1,8 @@
 import * as Joi from 'joi';
-import { EmailNotificationDTO } from './dto/email.dto';
+import { EmailBulkNotificationDTO, EmailNotificationDTO } from './dto/email.dto';
 
-const emailNotificationSchema = Joi.object<EmailNotificationDTO>({
+export const emailNotificationSchema = Joi.object<EmailNotificationDTO>({
     entriesId: Joi.number().required(),
 });
 
-export { emailNotificationSchema };
+export const emailBulkNotificationSchema = Joi.object<EmailBulkNotificationDTO>({});
