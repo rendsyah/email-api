@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Document } from 'mongoose';
+import { Model, UpdateWriteOpResult } from 'mongoose';
 import { IFindOneAttachment } from './interfaces/attachment.interface';
 import { ICreatedLogIncoming } from './interfaces/log-incoming.interface';
 import { ICreatedLogOutgoing, IUpdateLogOutgoing } from './interfaces/log-outgoing.interface';
@@ -16,20 +16,19 @@ export class MongoService {
         @InjectModel('LogOutgoing') private readonly logOutgoingModel: Model<EmailLogOutgoingDocument>,
     ) {}
 
-    public async findOneAttachment(params: IFindOneAttachment): Promise<Document> {
+    public async findOneAttachment(params: IFindOneAttachment): Promise<AttachmentDocument> {
         return await this.attachmentModel.findOne(params);
     }
 
-    public async createdLogIncoming(params: ICreatedLogIncoming): Promise<Document> {
+    public async createdLogIncoming(params: ICreatedLogIncoming): Promise<EmailLogIncomingDocument> {
         return new this.logIncomingModel(params).save();
     }
 
-    public async createdLogOutgoing(params: ICreatedLogOutgoing): Promise<Document> {
+    public async createdLogOutgoing(params: ICreatedLogOutgoing): Promise<EmailLogOutgoingDocument> {
         return new this.logOutgoingModel(params).save();
     }
 
-    public async updateOneLogOutgoing(params: IUpdateLogOutgoing): Promise<unknown> {
-        const { id } = params;
-        return await this.logOutgoingModel.updateOne({ _id: id }, { $set: { ...params } });
+    public async updateOneLogOutgoing(params: IUpdateLogOutgoing): Promise<UpdateWriteOpResult> {
+        return await this.logOutgoingModel.updateOne({ _id: params.id }, { $set: params });
     }
 }

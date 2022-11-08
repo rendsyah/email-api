@@ -13,11 +13,11 @@ export class PostgreService {
         @InjectRepository(Entries) private readonly entriesModel: Repository<Entries>,
     ) {}
 
-    public async findAllNotificationMessage(params: IFindAllNotificationMessage) {
-        return await this.notificationMessageModel.find({ where: { ...params } });
+    public async findAllNotificationMessage(params: IFindAllNotificationMessage): Promise<NotificationMessage[]> {
+        return await this.notificationMessageModel.find({ where: { media_id: params.mediaId, status: params.status } });
     }
 
-    public async findOneEntries(params: IFindOneEntries) {
-        return await this.entriesModel.findOne({ where: { ...params } });
+    public async findOneEntries(params: IFindOneEntries): Promise<Entries> {
+        return await this.entriesModel.findOne({ where: params });
     }
 }
