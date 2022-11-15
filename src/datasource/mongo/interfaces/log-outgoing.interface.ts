@@ -7,6 +7,7 @@ export interface ICreatedLogOutgoing {
     mediaId: number;
     eventId: number;
     status: string;
+    isAck: number;
 }
 
 export interface IUpdateLogOutgoing {

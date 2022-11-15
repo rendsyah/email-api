@@ -172,6 +172,7 @@ export class EmailService {
             mediaId: emailRequestData.mediaId,
             eventId: emailRequestData.eventId,
             status: 'pending',
+            isAck: 0,
         });
 
         // Mapping Data Email

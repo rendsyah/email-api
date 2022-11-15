@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { JoiValidationPipe } from 'src/commons/pipes/joi.pipe';
 import { ApiEmailBadRequest, ApiEmailBody, ApiEmailCreated, ApiEmailInternalServerError, ApiEmailOperation } from './api-docs/email.docs';
 import { EmailBulkNotificationDTO, EmailNotificationDTO } from './dto/email.dto';
-import { emailBulkNotificationSchema, emailNotificationSchema } from './email.pipe';
 import { EmailService } from './email.service';
+import { emailBulkNotificationSchema, emailNotificationSchema } from './email.pipe';
 
 @ApiTags('Email')
 @Controller('/api/email')
