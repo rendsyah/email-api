@@ -12,7 +12,7 @@ export class MongooseConfig implements MongooseOptionsFactory {
             authSource: this.configService.get<string>('PROJECT_MONGO_DB_AUTH'),
             replicaSet: this.configService.get<string>('PROJECT_MONG_DB_REPLICA'),
             retryWrites: true,
-            connectTimeoutMS: 30000,
+            serverSelectionTimeoutMS: 60000,
         };
     }
 }

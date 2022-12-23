@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { createTransport, SendMailOptions } from 'nodemailer';
 import * as root from 'app-root-path';
 
@@ -7,7 +8,7 @@ import { IEmailMasterData, IEmailRequestData, IEmailTransporter } from './email.
 import { BaseFunctions } from 'src/commons/libs/base-function.service';
 import { MongoService } from 'src/datasource/mongo/mongo.service';
 import { PostgreService } from 'src/datasource/postgre/postgre.service';
-import { ConfigService } from '@nestjs/config';
+import { BadRequestException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class EmailService {
@@ -33,9 +34,6 @@ export class EmailService {
                 this.masterData.push(...getNotificationMessage);
             }
         }
-
-        console.log(this.masterData);
-        throw new Error('err');
     }
 
     private async _emailRequestData(params: IEmailRequestData) {
@@ -154,51 +152,58 @@ export class EmailService {
 
     public async emailNotification(params: EmailNotificationDTO) {
         // Call Master Data
-        await this._emailMasterData();
+        // await this._emailMasterData();
 
         // Get Data Configuration & Data Email
         const serviceTransporter = this.configService.get('EMAIL_SERVICE');
         const userTransporter = this.configService.get('EMAIL_USER');
         const passTransporter = this.configService.get('EMAIL_PASS');
-        const emailRequestData = await this._emailRequestData({ ...params });
+
+        const object: any = {};
+
+        object.map((v) => {
+            v.asdf = v;
+        });
+
+        // const emailRequestData: any = await this._emailRequestData({ ...params });
 
         // Insert Outgoing Log
-        const createdLogOutgoing = await this.mongoModelsService.createdLogOutgoing({
-            from: userTransporter,
-            to: emailRequestData.to,
-            message: '',
-            attachment: '',
-            sentTime: '',
-            mediaId: emailRequestData.mediaId,
-            eventId: emailRequestData.eventId,
-            status: 'pending',
-            isAck: 0,
-        });
+        // const createdLogOutgoing = await this.mongoModelsService.createdLogOutgoing({
+        //     from: userTransporter,
+        //     to: emailRequestData.to,
+        //     message: '',
+        //     attachment: '',
+        //     sentTime: '',
+        //     mediaId: emailRequestData.mediaId,
+        //     eventId: emailRequestData.eventId,
+        //     status: 'pending',
+        //     isAck: 0,
+        // });
 
         // Mapping Data Email
-        const requestTransporter = {
-            service: serviceTransporter,
-            user: userTransporter,
-            pass: passTransporter,
-            to: emailRequestData.to,
-            text: emailRequestData.message,
-            subject: emailRequestData.subject,
-            filename: emailRequestData.filename,
-            path: emailRequestData.path,
-        };
+        // const requestTransporter = {
+        //     service: serviceTransporter,
+        //     user: userTransporter,
+        //     pass: passTransporter,
+        //     to: emailRequestData.to,
+        //     text: emailRequestData.message,
+        //     subject: emailRequestData.subject,
+        //     filename: emailRequestData.filename,
+        //     path: emailRequestData.path,
+        // };
 
         // Sending Email
-        await this._emailTransporter(requestTransporter);
+        // await this._emailTransporter(requestTransporter);
 
         // Update Outgoing Log
-        await this.mongoModelsService.updateOneLogOutgoing({
-            id: createdLogOutgoing.id,
-            message: emailRequestData.message,
-            attachment: emailRequestData.path,
-            sentTime: emailRequestData.sentTime,
-            status: 'sent',
-            isAck: 1,
-        });
+        // await this.mongoModelsService.updateOneLogOutgoing({
+        //     id: createdLogOutgoing.id,
+        //     message: emailRequestData.message,
+        //     attachment: emailRequestData.path,
+        //     sentTime: emailRequestData.sentTime,
+        //     status: 'sent',
+        //     isAck: 1,
+        // });
 
         return 'ok';
     }

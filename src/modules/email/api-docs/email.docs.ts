@@ -9,7 +9,7 @@ import {
 } from '@nestjs/swagger';
 
 export const ApiEmailOperation = (params: string = '') => {
-    return applyDecorators(ApiOperation({ summary: `Send ${params} email`, description: `API documentation for send ${params} email` }));
+    return applyDecorators(ApiOperation({ description: `API documentation for send ${params} email` }));
 };
 
 export const ApiEmailBody = <TModel extends Type<any>>(model: TModel, params: string = '') => {
